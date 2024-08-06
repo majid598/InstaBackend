@@ -14,5 +14,6 @@ export const sendToken = (res, user, code, message) => {
     success: true,
     user,
     message,
+    token
   });
 };

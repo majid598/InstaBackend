@@ -9,6 +9,7 @@ import {
   myProfile,
   newUser,
   removeAFollower,
+  resetNotifications,
   singleStory,
   stories,
   uploadStory,
@@ -31,6 +32,8 @@ router.get("/me", isAuthenticated, isAuthenticated, myProfile);
 router.put("/follow", isAuthenticated, followToAuser);
 
 router.get("/notifications/my", isAuthenticated, myNotifications);
+
+router.get("/notifications/reset", isAuthenticated, resetNotifications);
 
 router.post("/story/upload", isAuthenticated, uploadStory);
 

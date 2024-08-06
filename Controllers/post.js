@@ -62,6 +62,7 @@ const likeToPost = TryCatch(async (req, res, next) => {
       reciever: user._id,
     });
     user.notifications.push(notification);
+    user.notificationCount++
   } else {
     post.likes.splice(post.likes.indexOf(userId), 1);
   }
@@ -118,6 +119,7 @@ const likeToReel = TryCatch(async (req, res, next) => {
       reciever: user._id,
     });
     user.notifications.push(notification);
+    user.notificationCount++
   } else {
     reel.likes.splice(reel.likes.indexOf(userId), 1);
   }
@@ -151,20 +153,18 @@ const addToFavorites = TryCatch(async (req, res, next) => {
   });
 });
 
-const viewsPlus = TryCatch(async (req, res, next) => {
-  const reelId = req.params.id;
-  const { userId } = req.body;
+const viewsReel = TryCatch(async (req, res, next) => {
 
-  const reel = await Reel.findById(reelId);
+  const reel = await Reel.findById(req.params.id);
   if (!reel) return next("Reel not found", 404);
 
-  if (!reel.viewsByUser.includes(userId)) {
+  if (!reel.viewsByUser.includes(req.user)) {
     reel.views++;
-    reel.viewsByUser.push(userId);
+    reel.viewsByUser.push(req.user);
     await reel.save();
   }
 
-  res.status(200).json({ message: "View count incremented successfully" });
+  res.status(200).json({ success: true });
 });
 
 const addComment = TryCatch(async (req, res, next) => {
@@ -209,7 +209,7 @@ export {
   allReels,
   likeToReel,
   singlePost,
-  viewsPlus,
+  viewsReel,
   addComment,
   singleReel,
   addToFavorites,

@@ -78,7 +78,8 @@ const editProfile = TryCatch(async (req, res, next) => {
 });
 
 const followToAuser = TryCatch(async (req, res, next) => {
-  const { userId, followerId } = req.body;
+  const { userId } = req.body;
+  const followerId = req.user
   // Find the user who is removing the follower
   const user = await User.findById(userId);
   const follower = await User.findById(followerId);
@@ -94,6 +95,7 @@ const followToAuser = TryCatch(async (req, res, next) => {
       reciever: user._id,
     });
     user.notifications.push(notification);
+    user.notificationCount + 1
   } else {
     user.followers.splice(user.followers.indexOf(followerId), 1);
   }
@@ -169,11 +171,15 @@ const singleStory = TryCatch(async (req, res, next) => {
   return res.status(200).json({ success: true, story });
 });
 const myNotifications = TryCatch(async (req, res, next) => {
-  const userId = req.query.id;
   const notifications = await Notification.find({
-    reciever: req.query.id,
+    reciever: req.user,
   }).populate("sender", "fullName username profile");
   return res.status(200).json({ success: true, notifications });
+});
+const resetNotifications = TryCatch(async (req, res, next) => {
+  const user = await User.findById(req.user)
+  user.notificationCount = 0
+  return res.status(200).json({ success: true });
 });
 
 cron.schedule("0 0 * * *", async () => {
@@ -200,5 +206,5 @@ export {
   uploadStory,
   stories,
   singleStory,
-  myNotifications,
+  myNotifications, resetNotifications
 };

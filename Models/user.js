@@ -75,6 +75,10 @@ const schema = mongoose.Schema(
         ref: "Notification",
       },
     ],
+    notificationCount: {
+      type: Number,
+      default: 0
+    },
     websiteLink: String,
   },
   {

@@ -10,7 +10,7 @@ import {
   singlePost,
   singleReel,
   uploadReal,
-  viewsPlus,
+  viewsReel,
 } from "../Controllers/post.js";
 import { isAuthenticated } from "../Middlewares/auth.js";
 
@@ -26,7 +26,7 @@ router.get("/reel/with/:id", isAuthenticated, singleReel);
 
 router.put("/like", isAuthenticated, likeToPost);
 
-router.put("/reel/:id/view", isAuthenticated, viewsPlus);
+router.get("/reel/view/:id", isAuthenticated, viewsReel);
 
 router.post("/reel/comment", isAuthenticated, addComment);
 

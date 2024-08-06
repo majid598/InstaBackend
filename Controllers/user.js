@@ -177,8 +177,7 @@ const myNotifications = TryCatch(async (req, res, next) => {
   return res.status(200).json({ success: true, notifications });
 });
 const resetNotifications = TryCatch(async (req, res, next) => {
-  const user = await User.findById(req.user)
-  user.notificationCount = 0
+  await User.findByIdAndUpdate(req.user, { notificationCount: 0 })
   return res.status(200).json({ success: true });
 });
 

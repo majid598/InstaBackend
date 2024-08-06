@@ -15,11 +15,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:4173",
-<<<<<<< HEAD
-      process.env.CLIENT_URL,
-=======
       "https://instagram-eight-lovat.vercel.app",
->>>>>>> 0c82caf4db0fd8b0db9137e644a71cf4bdc609d8
+      process.env.CLIENT_URL,
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,

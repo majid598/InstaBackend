@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import ErrorHandler from "../Utils/utility.js";
 
 export const isAuthenticated = (req, res, next) => {
-  const token = req.cookies["insta-token"];
+  const token = req.cookies["insta-token"] || req.header("token");
 
   if (!token) return next(new ErrorHandler("Please Login first", 404));
 
